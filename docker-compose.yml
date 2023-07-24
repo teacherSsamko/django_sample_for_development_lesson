@@ -1,0 +1,29 @@
+version: '3'
+
+volumes:
+  postgres_data: {}
+
+services:
+  app: &app
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    image: sampleapp
+    container_name: sampleapp
+    depends_on:
+      - db
+    volumes:
+      - .:/app:z
+    env_file:
+      - ./sampleapp/.env
+    ports:
+      - '8000:8000'
+    command: /start
+
+  db:
+    image: postgres:13
+    container_name: postgres
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    env_file:
+      - ./sampleapp/.env.postgres
