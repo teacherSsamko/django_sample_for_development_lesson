@@ -10,20 +10,20 @@ services:
       dockerfile: ./Dockerfile
     image: sampleapp
     container_name: sampleapp
-    depends_on:
-      - db
+    # depends_on:
+    #   - db
     volumes:
       - .:/app:z
     env_file:
       - ./sampleapp/.env
+      - ./sampleapp/.env.postgres
     ports:
       - '8000:8000'
     command: /start
-
-  db:
-    image: postgres:13
-    container_name: postgres
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-    env_file:
-      - ./sampleapp/.env.postgres
+  # db:
+  #   image: postgres:13
+  #   container_name: postgres
+  #   volumes:
+  #     - postgres_data:/var/lib/postgresql/data
+  #   env_file:
+  #     - ./sampleapp/.env.postgres
