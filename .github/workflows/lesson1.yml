@@ -19,6 +19,9 @@ jobs:
             - uses: actions/checkout@v3
             - name: list files
               run: ls -al
-            - name: docker-compose build
+            - name: docker build
+              working-directory: ./
               run: |
-                docker-compose build
+                docker build --tag lion-app .
+            - name: docker images
+              run: docker images lion-app
