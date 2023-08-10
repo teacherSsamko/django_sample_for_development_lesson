@@ -16,7 +16,4 @@ COPY . $APP_HOME
 
 WORKDIR ${APP_HOME}/sampleapp
 
-RUN python manage.py migrate
-RUN python manage.py collectstatic
-
 CMD [ "gunicorn", "sampleapp.wsgi:application", "--config", "sampleapp/gunicorn_config.py" ]
