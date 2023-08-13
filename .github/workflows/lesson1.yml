@@ -12,5 +12,5 @@ jobs:
               run: echo "This event is ${{github.event_name}}"
 
     call-workflow:
-        uses: teacherSsamko/django_sample_for_development_lesson/.github/workflows/lesson2.yml@main
+        uses: ./.github/workflows/lesson2.yml
         
