@@ -9,12 +9,37 @@ https://docs.djangoproject.com/en/4.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
-
+import os
+import json
 from pathlib import Path
+
+# import boto3
+# from botocore.exceptions import ClientError
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+
+# def get_db_secret() -> dict:
+#     secret_name = "dev/db/postgres"
+#     region_name = "ap-northeast-2"
+
+#     session = boto3.session.Session()
+#     client = session.client(service_name="secretsmanager", region_name=region_name)
+
+#     try:
+#         get_secret_value_response = client.get_secret_value(SecretId=secret_name)
+#     except ClientError as e:
+#         raise e
+
+#     # Decrypts secret using the associated KMS key.
+#     secret = get_secret_value_response["SecretString"]
+
+#     return json.loads(secret)
+
+
+# db_secret = get_db_secret()
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
@@ -27,6 +52,9 @@ DEBUG = True
 
 ALLOWED_HOSTS = [
     "175.45.201.136",
+    "localhost",
+    "django-app",
+    "app",
 ]
 
 
@@ -80,7 +108,30 @@ DATABASES = {
         "ENGINE": "django.db.backends.sqlite3",
         "NAME": BASE_DIR / "db.sqlite3",
     }
+    # "default": {
+    #     "ENGINE": "djongo",
+    #     "NAME": "sampleapp",
+    #     "CLIENT": {
+    #         "host": os.getenv("MONGO_URI"),
+    #         "username": os.getenv("MONGO_INITDB_ROOT_USERNAME"),
+    #         "password": os.getenv("MONGO_INITDB_ROOT_PASSWORD"),
+    #         "authSource": "admin",
+    #     },
+    # }
 }
+
+# DATABASES = {
+#     "default": {
+#         "ENGINE": "django.db.backends.postgresql",
+#         "NAME": "sampleapp",
+#         "CLIENT": {
+#             "host": db_secret.get("host"),
+#             "port": db_secret.get("port"),
+#             "user": db_secret.get("username"),
+#             "password": db_secret.get("password"),
+#         },
+#     }
+# }
 
 
 # Password validation
@@ -118,6 +169,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = "static/"
+STATIC_ROOT = "/var/www/html/static/"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
