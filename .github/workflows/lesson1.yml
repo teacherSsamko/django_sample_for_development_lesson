@@ -12,7 +12,10 @@ jobs:
               run: echo "This event is ${{github.event_name}}"
 
     call-workflow:
+        strategy:
+            matrix:
+                person: ['Eunsub', 'ssamko', 'lion']
         uses: ./.github/workflows/lesson2.yml
         with:
-            person: Eunsub
+            person: ${{ matrix.person }}
         
