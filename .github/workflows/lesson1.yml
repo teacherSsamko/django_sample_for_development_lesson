@@ -1,8 +1,7 @@
 name: lesson1
 
 on:
-    push:
-    pull_request:
+    workflow_dispatch:
 
 jobs:
     echo-event:
@@ -12,16 +11,6 @@ jobs:
             - name: get event
               run: echo "This event is ${{github.event_name}}"
 
-    cloning:
-        name: git clone
-        runs-on: ubuntu-latest
-        steps:
-            - uses: actions/checkout@v3
-            - name: list files
-              run: ls -al
-            - name: docker build
-              working-directory: ./
-              run: |
-                docker build --tag lion-app .
-            - name: docker images
-              run: docker images lion-app
+    call-workflow:
+        uses: teacherSsamko/django_sample_for_development_lesson/.github/workflows/lesson2.yml@main
+        
