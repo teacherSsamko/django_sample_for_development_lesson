@@ -13,13 +13,13 @@ pipeline {
             }
         }
         
-        stage('Build Docker Image') {
+        stage('Build Docker Image ') {
             steps {
                 // Docker 이미지 빌드 및 푸시
                 script {
                     def imageName = "lion-app"
                     def imageTag = "jenkins-latest"
-                    def dockerRegistry = "lion-cr.kr.ncr.ntruss.com"
+                    def dockerRegistry = "test-lion-cr.kr.ncr.ntruss.com"
 
                     docker.build("${dockerRegistry}/${imageName}:${imageTag}", ".")
 
