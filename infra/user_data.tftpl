@@ -24,4 +24,8 @@ sudo service docker start && sudo service docker enable
 echo "Add user to 'docker' group"
 sudo usermod -aG docker $USERNAME
 
+echo "POSTGRES_DB=lionforum" >> /home/lion/env
+echo "POSTGRES_USER=lion" >> /home/lion/env
+echo "POSTGRES_PASSWORD=${db_password}" >> /home/lion/env
+
 echo "done"

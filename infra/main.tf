@@ -38,7 +38,10 @@ resource "ncloud_subnet" "test" {
 resource "ncloud_init_script" "set_be" {
   name = "set-be"
 #   content = templatefile("${path.module}/user_data.sh", {})
-  content = templatefile("${path.module}/user_data.tftpl", { password = var.password })
+  content = templatefile("${path.module}/user_data.tftpl", { 
+    password = var.password, 
+    db_password = var.db_password
+    })
 
 #   lifecycle {
 #     ignore_changes = [ 
