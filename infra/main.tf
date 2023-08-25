@@ -18,44 +18,33 @@ resource "ncloud_login_key" "loginkey" {
   key_name = "test-key"
 }
 
-resource "ncloud_vpc" "test" {
-  ipv4_cidr_block = "10.11.0.0/16"
+data "ncloud_vpc" "default" {
+  id = 41404
 }
 
 resource "ncloud_subnet" "test" {
-  vpc_no         = ncloud_vpc.test.vpc_no
-  subnet         = cidrsubnet(ncloud_vpc.test.ipv4_cidr_block, 8, 1)
+  vpc_no         = data.ncloud_vpc.default.vpc_no
+  subnet         = cidrsubnet(data.ncloud_vpc.default.ipv4_cidr_block, 8, 3)
   zone           = "KR-2"
-  network_acl_no = ncloud_vpc.test.default_network_acl_no
+  network_acl_no = data.ncloud_vpc.default.default_network_acl_no
   subnet_type    = "PUBLIC"
   usage_type     = "GEN"
 }
 
-# data "template_file" "user_data" {
-#   template = "${file("user_data.sh")}"
-# }
-
 resource "ncloud_init_script" "set_be" {
   name = "set-be"
-#   content = templatefile("${path.module}/user_data.sh", {})
-  content = templatefile("${path.module}/user_data.tftpl", { 
-    password = var.password, 
+  content = templatefile("${path.module}/user_data.tftpl", {
+    password    = var.password,
     db_password = var.db_password
-    })
-
-#   lifecycle {
-#     ignore_changes = [ 
-#         content
-#      ]
-#   }
+  })
 }
 
 resource "ncloud_server" "server" {
   subnet_no                 = ncloud_subnet.test.id
-  name                      = "tf-test-server"
+  name                      = "k8s-server"
   server_image_product_code = "SW.VSVR.OS.LNX64.UBNTU.SVR2004.B050"
   login_key_name            = ncloud_login_key.loginkey.key_name
-  init_script_no = ncloud_init_script.set_be.init_script_no
+  init_script_no            = ncloud_init_script.set_be.init_script_no
 }
 
 resource "ncloud_public_ip" "public_ip" {
