@@ -10,7 +10,7 @@ class SimpleHandler(BaseHTTPRequestHandler):
             self.end_headers()
 
             host_name = socket.gethostname()
-            message = f"Host Name: {host_name}"
+            message = f"Host Name: {host_name} / v=1"
 
             self.wfile.write(message.encode())
         else:
