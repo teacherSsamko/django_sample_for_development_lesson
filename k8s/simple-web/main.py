@@ -13,9 +13,7 @@ class SimpleHandler(BaseHTTPRequestHandler):
             self.end_headers()
 
             host_name = socket.gethostname()
-            message = (
-                f"Host Name: {host_name} / v=1 / Request: {SimpleHandler.request} /\n"
-            )
+            message = f"Host Name: {host_name} / v=unhealthy / Request: {SimpleHandler.request} /\n"
 
             self.wfile.write(message.encode())
         elif SimpleHandler.request >= 5:
