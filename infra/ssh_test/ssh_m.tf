@@ -1,5 +1,5 @@
 resource "ssh_resource" "init" {
-  depends_on = [ncloud_server.server]
+  depends_on = [ncloud_server.server, ncloud_public_ip.public_ip]
 
   when = "create"
 
@@ -7,7 +7,7 @@ resource "ssh_resource" "init" {
   user     = "lion"
   password = "dmstjq11"
 
-  # Try to complete in at most 15 minutes and wait 5 seconds between retries
+
   timeout     = "1m"
   retry_delay = "3s"
 
