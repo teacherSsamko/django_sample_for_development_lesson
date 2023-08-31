@@ -1,0 +1,18 @@
+FROM ubuntu:22.04
+LABEL likelion.web.backend.author="Eunsub LEE <ssamko@kakao.com>"
+
+RUN apt-get update && apt install -y nginx vim
+RUN echo "\ndaemon off;" >> /etc/nginx/nginx.conf
+RUN chown -R www-data:www-data /var/lib/nginx
+COPY ./django.conf /etc/nginx/sites-available/django
+
+RUN ln -s /etc/nginx/sites-available/django /etc/nginx/sites-enabled/
+
+VOLUME ["/data", "/etc/nginx/sites-enabled", "/var/log/nginx" ]
+
+WORKDIR /etc/nginx
+
+CMD ["nginx"]
+
+EXPOSE 80
+EXPOSE 443
